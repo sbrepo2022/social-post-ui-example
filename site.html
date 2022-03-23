@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<title>Пример поста</title>
+		<link rel="stylesheet" type="text/css" href="site.css">
+	</head>
+	<body>
+		<div class="post-list">
+			<div id="postCard" class="post">
+				<div class="post-head">
+					<a class="avatar" href="profile.html"></a><span class="author"></span>
+				</div>
+				<div id="postImgElem" class="post-img">
+					<img width="100%" height="auto" src="images/img1.jpg">
+					<div class="photo-info">3 фото</div>
+					<div class="start-touch-helper">
+						<div>
+							<img src="images/touch_app_white.svg">
+							<span>Зажми картинку</span>
+						</div>
+					</div>
+				</div>
+				<div class="post-body">
+					<p><b>Заголовок поста</b></p>
+					Какой то текст для поста, который можно почитать. MWorld крутая соцсеть :)
+				</div>
+			</div>
+		</div>
+
+		<div id="overlayElem" class="overlay">
+			<img class="show" src="images/img1.jpg" width="100%" height="auto">
+			<img src="images/img2.jpg" width="100%" height="auto">
+			<img src="images/img3.jpg" width="100%" height="auto">
+			<div class="pills-wrapper">
+				<div class="pills">
+					<div></div><div></div><div></div>
+				</div>
+			</div>
+			<div id="goProfile" class="side-action go-profile">
+				<img src="images/account_circle.svg">
+			</div>
+			<div id="goPost" class="side-action go-post">
+				<img src="images/arrow_forward.svg">
+			</div>
+		</div>
+
+		<script src="site.js" type="text/javascript" charset="utf-8" async defer></script>
+	</body>
+</html>
