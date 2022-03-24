@@ -12,7 +12,7 @@ window.oncontextmenu = function(event) {
     return false;
 };
 
-postImgElem.addEventListener('mouseover', (e) => {
+postImgElem.addEventListener('pointerover', (e) => {
 	e.stopPropagation();
 });
 
@@ -20,17 +20,17 @@ postCard.addEventListener('click', (e) => {
 	window.location = 'post.html';
 });
 
-postImgElem.addEventListener('mousedown', touchstart);
+postImgElem.addEventListener('pointerdown', touchstart);
 
-postImgElem.addEventListener('mousemove', () => {
+postImgElem.addEventListener('pointermove', () => {
 	if (!pinch) touchend();
 });
 
-postImgElem.addEventListener('mouseup', touchend);
+postImgElem.addEventListener('pointerup', touchend);
 
-window.addEventListener('mouseup', touchend);
+window.addEventListener('pointerup', touchend);
 
-window.addEventListener('mousemove', (e) => {
+window.addEventListener('pointermove', (e) => {
 	if (pinch) {
 		showCurImg(e);
 	}
