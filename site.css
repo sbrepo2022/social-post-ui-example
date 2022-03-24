@@ -116,20 +116,23 @@ img {
 	user-drag: none;
 }
 
-.overlay > img {
+.overlay > .overlay-img {
 	display: none;
 
 	width: 100%;
 	max-width: 600px;
-
-	border-radius: 1rem;
-	overflow: hidden;
+	padding: 0.5rem;
 
 	margin: 0 auto;
 }
 
-.overlay > img.show {
+.overlay > .overlay-img.show {
 	display: block;
+}
+
+.overlay > .overlay-img > img {
+	border-radius: 1rem;
+	overflow: hidden;
 }
 
 .pills-wrapper {
