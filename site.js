@@ -103,10 +103,10 @@ function showCurImg(screenX) {
 	let cur_img = Math.floor(screenX / (overlayElem.offsetWidth / (images_count + 2)));
 	let show_img = cur_img < 1 ? 1 : (cur_img > images_count ? images_count : cur_img);
 	if (prev_img !== cur_img) {
-		document.querySelectorAll('.overlay .overlay-img').forEach((el) => {
+		document.querySelectorAll('.overlay img').forEach((el) => {
 			el.classList.remove('show');
 		});
-		document.querySelector(`.overlay .overlay-img:nth-child(${show_img})`).classList.add('show');
+		document.querySelector(`.overlay img:nth-child(${show_img})`).classList.add('show');
 		document.querySelectorAll('.pills div').forEach((el) => {
 			el.classList.remove('current');
 		});
