@@ -6,54 +6,101 @@ let prev_img = -1;
 let start_x = -1;
 let go_profile_action = false, go_post_action = false;
 
-window.oncontextmenu = function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-};
+const isTouch = () => 'ontouchstart' in document.documentElement;
 
-postImgElem.addEventListener('pointerover', (e) => {
-	e.stopPropagation();
-});
-
-postCard.addEventListener('click', (e) => {
+postBody.addEventListener('click', (e) => {
 	window.location = 'post.html';
 });
 
-postImgElem.addEventListener('pointerdown', touchstart);
+// for PC only
 
-postImgElem.addEventListener('pointermove', () => {
-	if (!pinch) touchend();
-});
+if (! isTouch()) {
+	postImgElem.addEventListener('mousedown', mouseDown);
 
-postImgElem.addEventListener('pointerup', touchend);
+	postImgElem.addEventListener('mousemove', () => {
+		if (!pinch) mouseUp();
+	});
 
-window.addEventListener('pointerup', touchend);
+	postImgElem.addEventListener('mouseup', mouseUp);
 
-window.addEventListener('pointermove', (e) => {
+	window.addEventListener('mouseup', mouseUp);
+
+	window.addEventListener('mousemove', mouseMove);
+}
+
+function mouseMove(e) {
+	if (isTouch()) return;
+
 	if (pinch) {
-		showCurImg(e);
+		showCurImg(e.screenX);
 	}
-});
+}
 
-function touchstart(e) {
+function mouseDown(e) {
+	if (isTouch()) return;
+	
 	mousedown = true;
 	timerId = setTimeout(() => {
 		if (mousedown) {
 			pinch = true;
-			startOverlay(e);
+			startOverlay(e.screenX);
 		}
 	}, 250);
 }
 
-function touchend() {
+function mouseUp() {
+	if (isTouch()) return;
+	
 	mousedown = pinch = false;
 	stopOverlay();
 	clearTimeout(timerId);
 }
 
-function showCurImg(e) {
-	let cur_img = Math.floor(e.screenX / (overlayElem.offsetWidth / (images_count + 2)));
+// for PC end
+
+// for touchscreens only
+
+if (isTouch()) {
+	postImgElem.addEventListener('touchstart', touchStart);
+	window.addEventListener('touchmove', touchMove);
+	window.addEventListener('touchend', touchEnd);
+}
+
+function touchStart(e) {
+	if (! isTouch()) return;
+
+	mousedown = true;
+	timerId = setTimeout(() => {
+		if (mousedown) {
+			pinch = true;
+			startOverlay(e.touches[0].screenX);
+		}
+	}, 250);
+	e.preventDefault();
+}
+
+function touchMove(e) {
+	if (! isTouch()) return;
+	if (pinch) {
+		showCurImg(e.touches[0].screenX);
+	}
+	else {
+		touchEnd(e);
+	}
+}
+
+function touchEnd(e) {
+	if (! isTouch()) return;
+
+	mousedown = pinch = false;
+	stopOverlay();
+	clearTimeout(timerId);
+}
+
+// for touchscreens end
+
+function showCurImg(screenX) {
+	let cur_img = Math.floor(screenX / (overlayElem.offsetWidth / (images_count + 2)));
 	let show_img = cur_img < 1 ? 1 : (cur_img > images_count ? images_count : cur_img);
 	if (prev_img !== cur_img) {
 		document.querySelectorAll('.overlay img').forEach((el) => {
@@ -66,7 +113,7 @@ function showCurImg(e) {
 		document.querySelector(`.pills div:nth-child(${show_img})`).classList.add('current');
 
 		if (cur_img == 0 || cur_img == images_count + 1) {
-			start_x = e.screenX;
+			start_x = screenX;
 		}
 		else {
 			start_x = -1;
@@ -77,17 +124,17 @@ function showCurImg(e) {
 		prev_img = cur_img;
 	}
 	if (cur_img == 0) {
-		goProfilePosition(start_x - e.screenX);
+		goProfilePosition(start_x - screenX);
 	}
 	if (cur_img == images_count + 1) {
-		goPostPosition(e.screenX - start_x);
+		goPostPosition(screenX - start_x);
 	}
 }
 
-function startOverlay(e) {
+function startOverlay(screenX) {
 	overlayElem.style.display = 'flex';
 	setTimeout(() => overlayElem.classList.add('show'), 50);
-	showCurImg(e);
+	showCurImg(screenX);
 }
 
 function stopOverlay() {
